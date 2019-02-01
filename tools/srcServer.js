@@ -29,3 +29,5 @@ let server = app.listen(port, function(err) {
     open(`http://localhost:${port}`);
   }
 });
+
+// if server hangs up: taskkill /F /IM node.exe
