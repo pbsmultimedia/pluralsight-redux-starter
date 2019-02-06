@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from "redux";
 import * as courseActions from '../../actions/courseActions';
 
 class CoursesPage extends React.Component {
@@ -24,7 +25,9 @@ class CoursesPage extends React.Component {
   
   onClickSave() {
     // dispatch action
-    this.props.dispatch(courseActions.createCourse(this.state.course));
+    //this.props.dispatch(courseActions.createCourse(this.state.course));
+    //this.props.createCourse(this.state.course);
+    this.props.actions.createCourse(this.state.course);
   }
 
   courseRow(course, index) {
@@ -54,6 +57,14 @@ class CoursesPage extends React.Component {
 
 }
 
+CoursesPage.proptypes = {
+  //dispatch: PropTypes.func.isRequired,
+  courses: PropTypes.array.isRequired,
+  //createCourse: PropTypes.func.isRequired
+  //actions: PropTypes.func.isRequired
+  actions: PropTypes.object.isRequired
+};
+
 //
 function mapStateToProps(state, ownProps) {
   return {
@@ -61,12 +72,15 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-/*
-function mapDispatchToProps() {
-
+// determines what actions are available on the component
+function mapDispatchToProps(dispatch) {
+  return {
+    //createCourse: (course) => dispatch(courseActions.createCourse(course))
+    actions: bindActionCreators(courseActions, dispatch) // simpler way
+  }
 }
-*/
+
 
 // exprt component "decorated" by the redux connect function
-//export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage); // two function calls
-export default connect(mapStateToProps)(CoursesPage); // two function calls
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage); // two function calls
+//export default connect(mapStateToProps)(CoursesPage); // two function calls
